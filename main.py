@@ -1,15 +1,21 @@
 """
-Créé par Dorian Bernaquez Girard, 3 Décembre 2025
-Introduction à Arcade et ses fonctions
+Starting Template
+
+Once you have learned how to use classes, you can begin your program with this
+template.
+
+If Python and Arcade are installed, this example can be run from the command line with:
+python -m arcade.examples.starting_template
 """
-from dataclasses import dataclass
-
 import arcade
+from dataclasses import dataclass
 import random
-import time
+from arcade.color import SAE, ALMOND, ALLOY_ORANGE, ALABAMA_CRIMSON, AERO_BLUE, ANTIQUE_WHITE, BALL_BLUE, \
+    AUROMETALSAURUS, ATOMIC_TANGERINE
 
-SCREEN_WIDTH = 480
-SCREEN_HEIGHT = 640
+WINDOW_WIDTH = 1280
+WINDOW_HEIGHT = 720
+WINDOW_TITLE = "Starting Template"
 
 
 @dataclass
@@ -19,37 +25,172 @@ class RGB:
     b: int
 
 
-class MyGame(arcade.Window):
-    def __init__(self, width, height, title):
-        super().__init__(width, height, title)
+class GameView(arcade.View):
+    """
+    Main application class.
+
+    NOTE: Go ahead and delete the methods you don't need.
+    If you do need a method, delete the 'pass' and replace it
+    with your own code. Don't leave 'pass' in this program.
+    """
+
+    def __init__(self):
+        super().__init__()
+
+        self.background_color = arcade.color.AMAZON
+
+        self.color_list = None
+        self.color_choice = None
+        self.color = None
         self.circles_list = None
-        self.background_color = arcade.color.BUD_GREEN
-        self.rgb_tuple = None
+        self.background_color = arcade.color.BURNT_UMBER
         self.x_coordinate = None
         self.y_coordinate = None
+        # If you have sprite lists, you should create them here,
+        # and set them to None
 
-    def setup(self):
+    def reset(self):
+        """Reset the game to the initial state."""
+        # Do changes need to restart the game here if you want to support that
         self.circles_list = []
+        self.color_list = [AERO_BLUE, ALABAMA_CRIMSON, ALLOY_ORANGE, ALMOND, SAE, ANTIQUE_WHITE, BALL_BLUE,
+                           AUROMETALSAURUS, ATOMIC_TANGERINE]
         for i in range(0, 20):
-            circles = self.circles_list
-            self.rgb_tuple = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-            self.x_coordinate = random.randint(10, 470)
-            self.y_coordinate = random.randint(10, 630)
-            circle_variables = [self.rgb_tuple, self.x_coordinate, self.y_coordinate]
-            circles.append(circle_variables)
-
+            color_choice = random.choice(self.color_list)
+            x_coordinate = random.randint(10, 460)
+            y_coordinate = random.randint(10, 620)
+            self.circles_list.append([x_coordinate, y_coordinate, 10, color_choice])
 
     def on_draw(self):
+        """
+        Render the screen.
+        """
+
+        # This command should happen before we start drawing. It will clear
+        # the screen to the background color, and erase what we drew last frame.
         self.clear()
-        arcade.draw_circle_filled()
+        for circle in self.circles_list:
+            arcade.draw_circle_filled(circle[0], circle[1], circle[2], circle[3])
+
+    def on_update(self, delta_time):
+        """
+        All the logic to move, and the game logic goes here.
+        Normally, you'll call update() on the sprite lists that
+        need it.
+        """
+        pass
+
+    def on_key_press(self, key, key_modifiers):
+        """
+        Called whenever a key on the keyboard is pressed.
+
+        For a full list of keys, see:
+        https://api.arcade.academy/en/latest/arcade.key.html
+        """
+        pass
+
+    def on_key_release(self, key, key_modifiers):
+        """
+        Called whenever the user lets off a previously pressed key.
+        """
+        pass
+
+    def on_mouse_motion(self, x, y, delta_x, delta_y):
+        """
+        Called whenever the mouse moves.
+        """
+        pass
+
+    def on_mouse_press(self, x, y, button, key_modifiers):
+        """
+        Called when the user presses a mouse button.
+        """
+        pass
+
+    def on_mouse_release(self, x, y, button, key_modifiers):
+        """
+        Called when a user releases a mouse button.
+        """
+        pass
 
 
 def main():
-    window = MyGame(640, 480, "Tutoriel Arcade")
-    window.setup()
-    window.on_draw()
+    """ Main function """
+    # Create a window class. This is what actually shows up on screen
+    window = arcade.Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE)
 
+    # Create and setup the GameView
+    game = GameView()
+
+    # Show GameView on screen
+    window.show_view(game)
+
+    # Start the arcade game loop
     arcade.run()
 
 
-main()
+if __name__ == "__main__":
+    main()
+
+# """
+# Créé par Dorian Bernaquez Girard, 3 Décembre 2025
+# Introduction à Arcade et ses fonctions
+# """
+# from dataclasses import dataclass
+#
+# import arcade
+# import random
+# import time
+#
+# from arcade.color import SAE, ALMOND, ALLOY_ORANGE, ALABAMA_CRIMSON, AERO_BLUE, ANTIQUE_WHITE, BALL_BLUE, \
+#     AUROMETALSAURUS, ATOMIC_TANGERINE
+#
+# SCREEN_WIDTH = 480
+# SCREEN_HEIGHT = 640
+#
+#
+# @dataclass
+# class RGB:
+#     r: int
+#     g: int
+#     b: int
+#
+#
+# class MyGame(arcade.Window):
+#     def __init__(self, width, height, title):
+#         super().__init__(width, height, title)
+#         self.color_list = None
+#         self.color_choice = None
+#         self.color = None
+#         self.circles_list = None
+#         self.background_color = arcade.color.BURNT_UMBER
+#         self.x_coordinate = None
+#         self.y_coordinate = None
+#
+#     def setup(self):
+#         self.circles_list = []
+#         self.color_list = [AERO_BLUE, ALABAMA_CRIMSON, ALLOY_ORANGE, ALMOND, SAE, ANTIQUE_WHITE,
+#                            ATOMIC_TANGERINE, AUROMETALSAURUS, BALL_BLUE]
+#         for i in range(0, 20):
+#             color_choice = random.choice(self.color_list)
+#             x_coordinate = random.randint(10, 460)
+#             y_coordinate = random.randint(10, 620)
+#             self.circles_list.append([x_coordinate, y_coordinate, 10, color_choice])
+#
+#     def on_update(self):
+#
+#     def on_draw(self):
+#         self.clear()
+#         for circle in self.circles_list:
+#             arcade.draw_circle_filled(circle[0], circle[1], circle[2], circle[3])
+#
+#
+# def main():
+#     window = MyGame(640, 480, "Tutoriel Arcade")
+#     window.setup()
+#     window.on_draw()
+#
+#     arcade.run()
+#
+#
+# main()
