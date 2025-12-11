@@ -41,13 +41,16 @@ class GameView(arcade.View):
 
         self.color_list = None
         self.color_choice = None
-        self.color = None
         self.circles_list = None
         self.background_color = arcade.color.BURNT_UMBER
         self.x_coordinate = None
         self.y_coordinate = None
-        # If you have sprite lists, you should create them here,
-        # and set them to None
+        self.cercle_x = None
+        self.cercle_y = None
+        self.cercle_change_x = 3
+        self.cercle_change_y = 3
+        self.rayon_cercle = 10
+        self.reset()
 
     def reset(self):
         """Reset the game to the initial state."""
@@ -59,7 +62,8 @@ class GameView(arcade.View):
             color_choice = random.choice(self.color_list)
             x_coordinate = random.randint(10, 460)
             y_coordinate = random.randint(10, 620)
-            self.circles_list.append([x_coordinate, y_coordinate, 10, color_choice])
+            rayon_cercle = self.rayon_cercle
+            self.circles_list.append([x_coordinate, y_coordinate, rayon_cercle, color_choice])
 
     def on_draw(self):
         """
@@ -78,6 +82,21 @@ class GameView(arcade.View):
         Normally, you'll call update() on the sprite lists that
         need it.
         """
+        for circle in self.circles_list:
+            self.cercle_x = circle[0]
+            self.cercle_y = circle[1]
+            self.cercle_x += self.cercle_change_x
+            self.cercle_y += self.cercle_change_y
+            if self.cercle_x < self.rayon_cercle:
+                self.cercle_x *= -1
+                pass
+            if self.cercle_x > WINDOW_WIDTH - self.rayon_cercle:
+                pass
+            if self.cercle_y < self.rayon_cercle:
+                self.cercle_y *= -1
+                pass
+            if self.cercle_y > WINDOW_HEIGHT - self.rayon_cercle:
+                pass
         pass
 
     def on_key_press(self, key, key_modifiers):
