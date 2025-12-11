@@ -65,17 +65,6 @@ class GameView(arcade.View):
             rayon_cercle = self.rayon_cercle
             self.circles_list.append([x_coordinate, y_coordinate, rayon_cercle, color_choice])
 
-    def on_draw(self):
-        """
-        Render the screen.
-        """
-
-        # This command should happen before we start drawing. It will clear
-        # the screen to the background color, and erase what we drew last frame.
-        self.clear()
-        for circle in self.circles_list:
-            arcade.draw_circle_filled(circle[0], circle[1], circle[2], circle[3])
-
     def on_update(self, delta_time):
         """
         All the logic to move, and the game logic goes here.
@@ -89,15 +78,23 @@ class GameView(arcade.View):
             self.cercle_y += self.cercle_change_y
             if self.cercle_x < self.rayon_cercle:
                 self.cercle_x *= -1
-                pass
             if self.cercle_x > WINDOW_WIDTH - self.rayon_cercle:
                 pass
             if self.cercle_y < self.rayon_cercle:
                 self.cercle_y *= -1
-                pass
             if self.cercle_y > WINDOW_HEIGHT - self.rayon_cercle:
                 pass
-        pass
+
+    def on_draw(self):
+        """
+        Render the screen.
+        """
+
+        # This command should happen before we start drawing. It will clear
+        # the screen to the background color, and erase what we drew last frame.
+        self.clear()
+        for circle in self.circles_list:
+            arcade.draw_circle_filled(circle[0], circle[1], circle[2], circle[3])
 
     def on_key_press(self, key, key_modifiers):
         """
