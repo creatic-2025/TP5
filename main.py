@@ -45,8 +45,6 @@ class GameView(arcade.View):
         self.background_color = arcade.color.BURNT_UMBER
         self.x_coordinate = None
         self.y_coordinate = None
-        self.cercle_x = None
-        self.cercle_y = None
         self.cercle_change_x = 3
         self.cercle_change_y = 3
         self.rayon_cercle = 10
@@ -71,19 +69,7 @@ class GameView(arcade.View):
         Normally, you'll call update() on the sprite lists that
         need it.
         """
-        for circle in self.circles_list:
-            self.cercle_x = circle[0]
-            self.cercle_y = circle[1]
-            self.cercle_x += self.cercle_change_x
-            self.cercle_y += self.cercle_change_y
-            if self.cercle_x < self.rayon_cercle:
-                self.cercle_x *= -1
-            if self.cercle_x > WINDOW_WIDTH - self.rayon_cercle:
-                pass
-            if self.cercle_y < self.rayon_cercle:
-                self.cercle_y *= -1
-            if self.cercle_y > WINDOW_HEIGHT - self.rayon_cercle:
-                pass
+        pass
 
     def on_draw(self):
         """
