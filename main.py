@@ -7,6 +7,8 @@ template.
 If Python and Arcade are installed, this example can be run from the command line with:
 python -m arcade.examples.starting_template
 """
+import time
+
 import arcade
 from dataclasses import dataclass
 import random
@@ -16,6 +18,11 @@ from arcade.color import SAE, ALMOND, ALLOY_ORANGE, ALABAMA_CRIMSON, AERO_BLUE, 
 WINDOW_WIDTH = 640
 WINDOW_HEIGHT = 480
 WINDOW_TITLE = "Arcade Test"
+
+cercle_change_x = 3
+cercle_change_y = 3
+cercle_x = 0
+cercle_y = 0
 
 
 @dataclass
@@ -36,17 +43,13 @@ class GameView(arcade.View):
 
     def __init__(self):
         super().__init__()
-
         self.background_color = arcade.color.AMAZON
-
         self.color_list = None
         self.color_choice = None
         self.circles_list = None
+        self.cercle_x_init = 0
+        self.cercle_y_init = 0
         self.background_color = arcade.color.BURNT_UMBER
-        self.x_coordinate = None
-        self.y_coordinate = None
-        self.cercle_change_x = 3
-        self.cercle_change_y = 3
         self.rayon_cercle = 10
         self.reset()
 
@@ -58,10 +61,10 @@ class GameView(arcade.View):
                            AUROMETALSAURUS, ATOMIC_TANGERINE]
         for i in range(0, 20):
             color_choice = random.choice(self.color_list)
-            x_coordinate = random.randint(10, 460)
-            y_coordinate = random.randint(10, 620)
+            cercle_x_init = random.randint(10, 620)
+            cercle_y_init = random.randint(10, 460)
             rayon_cercle = self.rayon_cercle
-            self.circles_list.append([x_coordinate, y_coordinate, rayon_cercle, color_choice])
+            self.circles_list.append([cercle_x_init, cercle_y_init, rayon_cercle, color_choice])
 
     def on_update(self, delta_time):
         """
@@ -69,7 +72,25 @@ class GameView(arcade.View):
         Normally, you'll call update() on the sprite lists that
         need it.
         """
-        pass
+        global cercle_change_y
+        global cercle_change_x
+        global cercle_x
+        global cercle_y
+        for circle in self.circles_list:
+            circle[0] += cercle_change_x
+            circle[1] += cercle_change_y
+            cercle_x = circle[0]
+            cercle_y = circle[1]
+            print("Moved circles by (3,3)")
+            if cercle_x < self.rayon_cercle:
+                cercle_change_x *= -1
+            if cercle_x > WINDOW_WIDTH - self.rayon_cercle:
+                cercle_change_x *= -1
+            if cercle_y < self.rayon_cercle:
+                cercle_change_y *= -1
+                print("checked")
+            if cercle_y > WINDOW_HEIGHT - self.rayon_cercle:
+                cercle_change_y *= -1
 
     def on_draw(self):
         """
