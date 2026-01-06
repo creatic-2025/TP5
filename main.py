@@ -7,7 +7,6 @@ template.
 If Python and Arcade are installed, this example can be run from the command line with:
 python -m arcade.examples.starting_template
 """
-import time
 
 import arcade
 from dataclasses import dataclass
@@ -81,16 +80,18 @@ class GameView(arcade.View):
             circle[1] += cercle_change_y
             cercle_x = circle[0]
             cercle_y = circle[1]
-            print("Moved circles by (3,3)")
             if cercle_x < self.rayon_cercle:
                 cercle_change_x *= -1
+                print("bounce off")
             if cercle_x > WINDOW_WIDTH - self.rayon_cercle:
                 cercle_change_x *= -1
+                print("bounce off")
             if cercle_y < self.rayon_cercle:
                 cercle_change_y *= -1
-                print("checked")
+                print("bounce off")
             if cercle_y > WINDOW_HEIGHT - self.rayon_cercle:
                 cercle_change_y *= -1
+                print("bounce off")
 
     def on_draw(self):
         """
