@@ -18,10 +18,10 @@ WINDOW_WIDTH = 640
 WINDOW_HEIGHT = 480
 WINDOW_TITLE = "Arcade Test"
 
-cercle_change_x = 3
-cercle_change_y = 3
-cercle_x = 0
-cercle_y = 0
+# cercle_change_x = 3
+# cercle_change_y = 3
+# cercle_x = 0
+# cercle_y = 0
 
 
 @dataclass
@@ -46,6 +46,8 @@ class GameView(arcade.View):
         self.color_list = None
         self.color_choice = None
         self.circles_list = None
+        self.circle_change_y = 3
+        self.circle_change_x = 3
         self.cercle_x_init = 0
         self.cercle_y_init = 0
         self.background_color = arcade.color.BURNT_UMBER
@@ -63,7 +65,8 @@ class GameView(arcade.View):
             cercle_x_init = random.randint(10, 620)
             cercle_y_init = random.randint(10, 460)
             rayon_cercle = self.rayon_cercle
-            self.circles_list.append([cercle_x_init, cercle_y_init, rayon_cercle, color_choice])
+            self.circles_list.append([cercle_x_init + self.circle_change_x, cercle_y_init + self.circle_change_y,
+                                      rayon_cercle, color_choice])
 
     def on_update(self, delta_time):
         """
@@ -71,26 +74,20 @@ class GameView(arcade.View):
         Normally, you'll call update() on the sprite lists that
         need it.
         """
-        global cercle_change_y
-        global cercle_change_x
-        global cercle_x
-        global cercle_y
         for circle in self.circles_list:
-            circle[0] += cercle_change_x
-            circle[1] += cercle_change_y
-            cercle_x = circle[0]
-            cercle_y = circle[1]
-            if cercle_x < self.rayon_cercle:
-                cercle_change_x *= -1
+            circle[0] += self.circle_change_x
+            circle[1] += self.circle_change_y
+            if circle[0] < self.rayon_cercle:
+                self.circle_change_x *= -1
+                print("detected wall, bounce off")
+            if circle[0] > WINDOW_WIDTH - self.rayon_cercle:
+                self.circle_change_x *= -1
                 print("bounce off")
-            if cercle_x > WINDOW_WIDTH - self.rayon_cercle:
-                cercle_change_x *= -1
+            if circle[1] < self.rayon_cercle:
+                self.circle_change_y *= -1
                 print("bounce off")
-            if cercle_y < self.rayon_cercle:
-                cercle_change_y *= -1
-                print("bounce off")
-            if cercle_y > WINDOW_HEIGHT - self.rayon_cercle:
-                cercle_change_y *= -1
+            if circle[1] > WINDOW_HEIGHT - self.rayon_cercle:
+                self.circle_change_y *= -1
                 print("bounce off")
 
     def on_draw(self):
