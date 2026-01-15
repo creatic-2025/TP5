@@ -60,12 +60,12 @@ class GameView(arcade.View):
         self.circles_list = []
         self.color_list = [AERO_BLUE, ALABAMA_CRIMSON, ALLOY_ORANGE, ALMOND, SAE, ANTIQUE_WHITE, BALL_BLUE,
                            AUROMETALSAURUS, ATOMIC_TANGERINE]
-        for i in range(0, 20):
+        for i in range(20):
             color_choice = random.choice(self.color_list)
             cercle_x_init = random.randint(10, 620)
             cercle_y_init = random.randint(10, 460)
             rayon_cercle = self.rayon_cercle
-            self.circles_list.append([cercle_x_init + self.circle_change_x, cercle_y_init + self.circle_change_y,
+            self.circles_list.append([cercle_x_init, cercle_y_init, self.circle_change_x, self.circle_change_y,
                                       rayon_cercle, color_choice])
 
     def on_update(self, delta_time):
@@ -75,19 +75,19 @@ class GameView(arcade.View):
         need it.
         """
         for circle in self.circles_list:
-            circle[0] += self.circle_change_x
-            circle[1] += self.circle_change_y
+            circle[0] += circle[2]
+            circle[1] += circle[3]
             if circle[0] < self.rayon_cercle:
-                self.circle_change_x *= -1
-                print("detected wall, bounce off")
+                circle[2] *= -1
+                print("bounce off")
             if circle[0] > WINDOW_WIDTH - self.rayon_cercle:
-                self.circle_change_x *= -1
+                circle[2] *= -1
                 print("bounce off")
             if circle[1] < self.rayon_cercle:
-                self.circle_change_y *= -1
+                circle[3] *= -1
                 print("bounce off")
             if circle[1] > WINDOW_HEIGHT - self.rayon_cercle:
-                self.circle_change_y *= -1
+                circle[3] *= -1
                 print("bounce off")
 
     def on_draw(self):
@@ -99,7 +99,7 @@ class GameView(arcade.View):
         # the screen to the background color, and erase what we drew last frame.
         self.clear()
         for circle in self.circles_list:
-            arcade.draw_circle_filled(circle[0], circle[1], circle[2], circle[3])
+            arcade.draw_circle_filled(circle[0], circle[1], circle[4], circle[5])
 
     def on_key_press(self, key, key_modifiers):
         """
